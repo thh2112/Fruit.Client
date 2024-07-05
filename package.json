@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "antd": "^5.18.3",
+    "i": "^0.3.7",
     "next": "14.2.4",
+    "npm": "^10.8.1",
     "react": "^18",
     "react-dom": "^18"
   },

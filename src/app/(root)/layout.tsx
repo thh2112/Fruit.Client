@@ -1,15 +1,9 @@
+import MainLayout from '@/app/_layouts/MainLayout';
+
 interface Props {
   children: React.ReactNode;
-  a: React.ReactNode;
-  b: React.ReactNode;
 }
-export default function layout({ children, a, b }: Props) {
-  return (
-    <div>
-      <div>{children}</div>
-      <div>{a}</div>
-      <div>{b}</div>
-      <div>Layout</div>
-    </div>
-  );
+
+export default function layout({ children }: Props) {
+  return <MainLayout>{children}</MainLayout>;
 }

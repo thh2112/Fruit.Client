@@ -7,7 +7,7 @@ import _styled from '@emotion/styled';
 import { media } from '@/shared/styles/media-queries';
 import Sidebar from '@/shared/components/sidebar/Sidebar';
 import { HEADER_HEIGHT, SIDEBAR_WIDTH } from '@/shared/constant';
-import Header from '@/shared/components/Header';
+import Header from '@/shared/components/header/Header';
 import withTheme from '@/libs/antd/theme';
 
 interface MainLayoutProps extends PropsWithChildren {}

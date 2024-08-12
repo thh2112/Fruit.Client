@@ -18,8 +18,6 @@ export default function Sidebar() {
         left: 0,
         top: `${HEADER_HEIGHT}px`,
         bottom: 0,
-        borderRight: '1px solid #f0f0f0',
-        padding: '16px 12px',
       }}
     >
       <SuperAdminSidebar />

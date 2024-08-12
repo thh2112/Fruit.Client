@@ -16,7 +16,7 @@ const ThemeProviderAntd = ({ children }: React.PropsWithChildren) => {
 };
 
 const ConfigProviderAntd = ({ children }: React.PropsWithChildren) => {
-  const isThemeLight = false;
+  const isThemeLight = true;
   const themeConfig = isThemeLight ? lightThemeConfig : darkThemeConfig;
   const themeJson = isThemeLight ? lightTheme : darkTheme;
 

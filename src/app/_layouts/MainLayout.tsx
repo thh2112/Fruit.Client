@@ -36,7 +36,6 @@ const ContentLayout = _styled(Layout)((props) => {
   return {
     marginLeft: SIDEBAR_WIDTH,
     minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
-    background: 'white',
     padding: 24,
   };
 });

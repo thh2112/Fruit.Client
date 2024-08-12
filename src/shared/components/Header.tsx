@@ -14,7 +14,6 @@ const HeaderContainer = _styled(HeaderAntd)((props) => ({
   top: 0,
   left: 0,
   right: 0,
-  background: 'white',
   boxShadow: `0px 2px 4px 0px rgba(0, 0, 0, 0.02), 0px 1px 6px -1px rgba(0, 0, 0, 0.02), 0px 1px 2px 0px rgba(0, 0, 0, 0.03)`,
   padding: '0px 16px',
   zIndex: 1000,

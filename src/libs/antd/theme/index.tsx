@@ -1,7 +1,7 @@
 'use client';
-import { ThemeProvider } from '@emotion/react';
+import { Global, ThemeProvider, css } from '@emotion/react';
 import { ConfigProvider, type GlobalToken, theme, type ThemeConfig } from 'antd';
-import React from 'react';
+import React, { useMemo } from 'react';
 import darkTheme from '@/libs/antd/theme/dark.json';
 import lightTheme from '@/libs/antd/theme/light.json';
 import { darkThemeConfig, lightThemeConfig } from '@/libs/antd/theme/theme-config';
@@ -16,16 +16,34 @@ const ThemeProviderAntd = ({ children }: React.PropsWithChildren) => {
 };
 
 const ConfigProviderAntd = ({ children }: React.PropsWithChildren) => {
-  const isThemeLight = true;
+  const isThemeLight = false;
   const themeConfig = isThemeLight ? lightThemeConfig : darkThemeConfig;
   const themeJson = isThemeLight ? lightTheme : darkTheme;
 
+  const globalStyles = useMemo(
+    () => css`
+      *::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background-color: ${themeJson.token.gray2};
+      }
+      *::-webkit-scrollbar-thumb {
+        background-color: ${themeJson.token.gray4};
+        border-radius: 50px;
+      }
+    `,
+    [themeConfig],
+  );
+
   return (
-    <ConfigProvider theme={{ ...themeJson } as ThemeConfig}>
-      <ConfigProvider theme={themeConfig}>
-        <ThemeProviderAntd>{children}</ThemeProviderAntd>
+    <>
+      <Global styles={{ ...globalStyles }} />
+      <ConfigProvider theme={{ ...themeJson } as ThemeConfig}>
+        <ConfigProvider theme={themeConfig}>
+          <ThemeProviderAntd>{children}</ThemeProviderAntd>
+        </ConfigProvider>
       </ConfigProvider>
-    </ConfigProvider>
+    </>
   );
 };
 

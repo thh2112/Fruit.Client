@@ -1,8 +1,7 @@
 import LoginPage from './LoginPage';
 
 const LogIn = () => {
-  const disabled = true;
-  return <LoginPage disabled={disabled} />;
+  return <LoginPage />;
 };
 
 export default LogIn;

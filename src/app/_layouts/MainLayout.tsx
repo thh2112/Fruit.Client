@@ -27,16 +27,19 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
 const SiderContainer = _styled.div({
   display: 'none',
-  [media('xl')]: {
+  [media('md')]: {
     display: 'initial',
   },
 });
 
 const ContentLayout = _styled(Layout)((props) => {
   return {
-    marginLeft: SIDEBAR_WIDTH,
+    marginLeft: 0,
     minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
     padding: 24,
+    [media('md')]: {
+      marginLeft: SIDEBAR_WIDTH,
+    },
   };
 });
 

@@ -1,8 +1,6 @@
-'use client';
+import { routeSetting } from '@/routes';
+import { redirect } from 'next/navigation';
 
-import { Typography } from 'antd';
-
-const { Text } = Typography;
-export default function abc() {
-  return <Text>Content</Text>;
+export default function HomePage() {
+  redirect(routeSetting.project());
 }

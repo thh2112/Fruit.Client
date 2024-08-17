@@ -9,18 +9,21 @@ import _get from 'lodash/get';
 import styled from '@emotion/styled';
 import { IThemeAntd } from '@/libs/antd/theme';
 import { HEADER_HEIGHT } from '@/shared/constant';
+import { getMenuItem } from '@/shared/helpers/menu';
+import { ListTodo } from 'lucide-react';
 
 const SuperAdminSidebar = () => {
   const pathname = usePathname();
   const splitPathname = pathname.split('/');
   const pathActive = _get(splitPathname, [2], pathname);
-  console.log(pathActive);
+
   const menuItems: MenuProps['items'] = useMemo(
     () => [
-      {
-        key: routeSetting.project(),
-        label: <Link href={routeSetting.project()}>Project</Link>,
-      },
+      getMenuItem(
+        <Link href={routeSetting.project()}>Task Management</Link>,
+        routeSetting.project(),
+        <ListTodo size={16} />,
+      ),
     ],
     [],
   );

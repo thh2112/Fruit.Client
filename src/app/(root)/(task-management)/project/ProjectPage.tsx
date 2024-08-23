@@ -17,11 +17,13 @@ function ProjectPage() {
 
     return { keyword, status, member };
   }, []);
+
   const onSubmit = () => {};
+
   return (
     <>
       <ProjectFilter onSubmit={onSubmit} loading={false} initialValues={initialFilter} />
-      <ProjectList />
+      <ProjectList loading={false} projects={[]} totalItems={0} />
     </>
   );
 }

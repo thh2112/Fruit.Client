@@ -26,3 +26,12 @@ body {
   background-color: #f0f0f0;
   border-radius: 50px;
 }
+
+.ant-dropdown-menu {
+  padding: 12px 8px !important;
+}
+.ant-dropdown-menu-item {
+  min-height: 40px;
+  border-radius: 0 !important;
+  margin: 0 -8px !important;
+}

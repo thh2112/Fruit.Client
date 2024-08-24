@@ -1,37 +1,30 @@
-import React from 'react';
-import { Flex, Button, Space, Avatar, Dropdown, theme } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import { Sun, Moon, Bell } from 'lucide-react';
-import DropdownNotification from '../dropdown/DropdownNotification';
-import DropdownProfile from '../dropdown/DropdownProfile';
+import { Flex, Popover, theme } from 'antd';
+import { Bell } from 'lucide-react';
+import DropdownNotification from '@/shared/components/dropdown/DropdownNotification';
+import DropdownProfile from '@/shared/components/dropdown/DropdownProfile';
 
 const HeaderAccount = () => {
-  // const { changeTheme, isThemeLight } = useTheme();
-  // const token = theme.useToken();
+  const {
+    token: { paddingLG },
+  } = theme.useToken();
 
   return (
-    <Flex gap={30} align="center" justify="center">
-      {/* <Button type="text" size="large" onClick={changeTheme}>
-        {isThemeLight ? <Sun size={20} /> : <Moon size={20} />}
-      </Button> */}
-      <Button type="text" size="large">
-        <Space direction="vertical" size={16}>
-          <Space wrap size={16}>
-            <Dropdown overlay={<DropdownNotification />} trigger={['click']} placement="bottom">
-              <Bell style={{ fontSize: 20 }} />
-            </Dropdown>
-          </Space>
-        </Space>
-      </Button>
-      <Button type="link" size="large">
-        <Space direction="vertical" size={16}>
-          <Space wrap size={16}>
-            <Dropdown overlay={<DropdownProfile />} trigger={['click']}>
-              <Avatar size="large" icon={<UserOutlined />} />
-            </Dropdown>
-          </Space>
-        </Space>
-      </Button>
+    <Flex gap={paddingLG} align="center" justify="center">
+      <Popover
+        content={<DropdownNotification />}
+        arrow={false}
+        trigger={'click'}
+        placement={'bottom'}
+        align={{
+          offset: [-32, 16],
+        }}
+        fresh
+        destroyTooltipOnHide
+        overlayInnerStyle={{ padding: 0, overflow: 'hidden' }}
+      >
+        <Bell size={24} style={{ cursor: 'pointer' }} />
+      </Popover>
+      <DropdownProfile />
     </Flex>
   );
 };

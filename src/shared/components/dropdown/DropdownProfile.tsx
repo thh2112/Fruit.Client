@@ -1,50 +1,65 @@
-import React from 'react';
-import { LoginOutlined, UserOutlined, SettingOutlined, RightOutlined } from '@ant-design/icons';
+import { IThemeAntd } from '@/libs/antd/theme';
+import { ClassNames } from '@emotion/react';
 import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import { Avatar, Dropdown, Space, Typography } from 'antd';
+import { Link, LogOut, User } from 'lucide-react';
+import { useMemo } from 'react';
 
-type MenuItem = Required<MenuProps>['items'][number];
-
-interface MenuElement {
-  key: string;
-  label: string;
-  icon: JSX.Element;
-}
-const items: MenuItem[] = [
-  {
-    key: 'Profile',
-    label: 'Profile',
-    icon: <UserOutlined style={{ fontSize: 16 }} />,
-  },
-  {
-    key: 'Settings',
-    label: 'Settings',
-    icon: <SettingOutlined style={{ fontSize: 16 }} />,
-  },
-  {
-    key: 'Log out',
-    label: 'Log out',
-    icon: <LoginOutlined style={{ fontSize: 16 }} />,
-  },
-];
+const { Text } = Typography;
 
 const DropdownProfile = () => {
-  const onClick: MenuProps['onClick'] = (e) => {};
+  const items: MenuProps['items'] = useMemo(
+    () => [
+      {
+        label: <Text>Profile</Text>,
+        icon: (
+          <ClassNames>
+            {({ theme }) => (
+              <User
+                size={18}
+                color={(theme as IThemeAntd).antdToken?.colorIcon}
+                style={{ marginRight: (theme as IThemeAntd).antdToken?.marginXS }}
+              />
+            )}
+          </ClassNames>
+        ),
+        key: 'my-profile',
+      },
+      {
+        label: <Text>Logout</Text>,
+        icon: (
+          <ClassNames>
+            {({ theme }) => (
+              <LogOut
+                size={18}
+                color={(theme as IThemeAntd).antdToken?.colorIcon}
+                style={{ marginRight: (theme as IThemeAntd).antdToken?.marginXS }}
+              />
+            )}
+          </ClassNames>
+        ),
+        onClick: () => {},
+        key: 'logout',
+      },
+    ],
+    [],
+  );
 
   return (
-    <Menu style={{ width: 156 }} defaultSelectedKeys={['1']} defaultOpenKeys={['Profile']} mode="inline">
-      <div style={{ padding: '10px 0px' }}>
-        {items?.map((ele: any) => (
-          <Menu.Item key={ele.key} icon={ele.icon} style={{ marginBottom: '10px', backgroundColor: 'white' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              {ele.label}
-              <RightOutlined style={{ fontSize: 10 }} />
-            </div>
-          </Menu.Item>
-        ))}
-      </div>
-    </Menu>
+    <>
+      <Dropdown
+        menu={{ items }}
+        trigger={['hover']}
+        placement="bottomRight"
+        align={{ offset: [0, 8] }}
+        overlayStyle={{ width: '200px' }}
+      >
+        <Space>
+          <Text style={{ fontWeight: 500 }}>{'John Doe'}</Text>
+          <Avatar size={40} />
+        </Space>
+      </Dropdown>
+    </>
   );
 };
-
 export default DropdownProfile;

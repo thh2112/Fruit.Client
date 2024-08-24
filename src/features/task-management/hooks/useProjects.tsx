@@ -19,7 +19,8 @@ const useProjects = () => {
   });
 
   const errorMessage = useMemo(() => {
-    return handleResponseErrors(error);
+    const { errorMessage } = handleResponseErrors(error);
+    return errorMessage;
   }, [error]);
   return { ...restSWR, data: projects, paging, errorMessage };
 };

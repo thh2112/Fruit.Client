@@ -4,12 +4,17 @@ import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import { ENV } from '@/environment';
 import { httpServer } from '@/libs/axios/http-server';
 import { transformProject } from '@/features/task-management/services/mappers/project';
+import { IProjectSearchParams } from '@/features/task-management/types/project';
 
 export const projectService = {
-  getProjects: async (request: any) => {
+  getProjects: async (headers: any, params: IProjectSearchParams) => {
     try {
       const endpoint = `${ENV.API_URL}/project`;
       const response = await httpServer.get(endpoint, {
+        headers,
+        params: {
+          ...params,
+        },
         transformResponse: [
           (response) => {
             try {

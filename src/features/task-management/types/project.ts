@@ -1,3 +1,4 @@
+import { BaseSearchParams } from '@/shared/types/search-params';
 import { User } from '@/shared/types/user';
 
 export enum ProjectStatus {
@@ -17,4 +18,8 @@ export interface IProject {
   icon: string;
   author: User;
   createdAt: Date | string;
+}
+
+export interface IProjectSearchParams extends BaseSearchParams {
+  status?: ProjectStatus;
 }

@@ -1,31 +1,35 @@
 'use client';
 
-import Icon from '@/shared/components/icons/CommonIcon';
-import styled from '@emotion/styled';
-import { Avatar, Col, Flex, Form, Input, Row, Select, theme } from 'antd';
-import { Search } from 'lucide-react';
-import { useMemo } from 'react';
 import { IProjectFilter, ProjectStatus } from '@/features/task-management/types/project';
-import _debounce from 'lodash/debounce';
-import { FormProps } from '@/shared/types/form';
+import Icon from '@/shared/components/icons/CommonIcon';
+import { DEFAULT_PAGE_NUMBER } from '@/shared/constant';
+import { KeySearchParamsEnum } from '@/shared/enums';
 import useFilter from '@/shared/hooks/useFilter';
 import { DataParamFilter } from '@/shared/types/filter';
-import { KeySearchParamsEnum } from '@/shared/enums';
+import { FormProps } from '@/shared/types/form';
+import styled from '@emotion/styled';
+import { Button, Col, Flex, Form, Input, Row, Select, theme, Typography } from 'antd';
+import _debounce from 'lodash/debounce';
 import _toString from 'lodash/toString';
-import { DEFAULT_PAGE_NUMBER } from '@/shared/constant';
+import { Plus, Search } from 'lucide-react';
+import { useMemo } from 'react';
 
 const enum FormFieldLabel {
   KEYWORD = 'keyword',
   STATUS = 'status',
 }
+
 const PROJECT_FILTER_FORM = 'project-filter-form';
 const DEBOUNCE_TIME = 500;
+const { Text } = Typography;
 
-interface ProjectFilterProps extends FormProps<IProjectFilter> {}
+interface ProjectFilterProps extends FormProps<IProjectFilter> {
+  onClickBtn: () => void;
+}
 
-function ProjectFilter({ onSubmit, initialValues }: ProjectFilterProps) {
+function ProjectFilter({ initialValues, onClickBtn }: ProjectFilterProps) {
   const {
-    token: { paddingLG, colorIcon },
+    token: { colorIcon, padding },
   } = theme.useToken();
 
   const { handleSetFilter } = useFilter();
@@ -59,7 +63,6 @@ function ProjectFilter({ onSubmit, initialValues }: ProjectFilterProps) {
   const handleFieldsChange = _debounce(() => {
     const formValues = form.getFieldsValue();
     setFilterValue(formValues);
-    onSubmit(formValues);
   }, DEBOUNCE_TIME);
 
   return (
@@ -72,8 +75,8 @@ function ProjectFilter({ onSubmit, initialValues }: ProjectFilterProps) {
       disabled={false}
       onFieldsChange={handleFieldsChange}
     >
-      <Row gutter={[paddingLG, paddingLG]} justify="space-between">
-        <Col xs={24} sm={24} md={6} xxl={6}>
+      <Row gutter={[padding, padding]} justify="end">
+        <Col xs={24} sm={24} md={6} xxl={4}>
           <FormItem name={FormFieldLabel.STATUS}>
             <SelectAntd size="large" options={statusOptions} defaultActiveFirstOption></SelectAntd>
           </FormItem>
@@ -93,6 +96,16 @@ function ProjectFilter({ onSubmit, initialValues }: ProjectFilterProps) {
             />
           </FormItem>
         </Col>
+        <Col>
+          <Button type="primary" size="large" onClick={onClickBtn}>
+            <Flex gap={4}>
+              <Icon>
+                <Plus size={16} />
+              </Icon>
+              <Text>Project</Text>
+            </Flex>
+          </Button>
+        </Col>
       </Row>
     </Form>
   );
@@ -102,8 +115,6 @@ const FormItem = styled(Form.Item)({
   marginBottom: 0,
 });
 
-const SelectAntd = styled(Select)({
-  minWidth: 320,
-});
+const SelectAntd = styled(Select)({});
 
 export default ProjectFilter;

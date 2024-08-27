@@ -4,9 +4,9 @@ import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import Providers from '@/app/providers';
 import { DEFAULT_LANGUAGE } from '@/shared/constant';
-import { SessionProvider } from 'next-auth/react';
 import { authOptions } from '@/libs/next-auth/auth';
 import { Session, getServerSession } from 'next-auth';
+import SessionProvider from '@/shared/providers/SessionProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 

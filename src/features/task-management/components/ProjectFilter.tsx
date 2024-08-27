@@ -1,10 +1,11 @@
 'use client';
 
 import { IProjectFilter, ProjectStatus } from '@/features/task-management/types/project';
-import Icon from '@/shared/components/icons/CommonIcon';
+
 import { DEFAULT_PAGE_NUMBER } from '@/shared/constant';
 import { KeySearchParamsEnum } from '@/shared/enums';
 import useFilter from '@/shared/hooks/useFilter';
+import Icon from '@/shared/icons/icon';
 import { DataParamFilter } from '@/shared/types/filter';
 import { FormProps } from '@/shared/types/form';
 import styled from '@emotion/styled';

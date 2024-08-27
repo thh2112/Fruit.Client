@@ -1,6 +1,5 @@
 'use client';
 
-import { routeSetting } from '@/routes';
 import { Menu, type MenuProps } from 'antd';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -11,6 +10,7 @@ import { IThemeAntd } from '@/libs/antd/theme';
 import { HEADER_HEIGHT } from '@/shared/constant';
 import { getMenuItem } from '@/shared/helpers/menu';
 import { ListTodo } from 'lucide-react';
+import { routeSetting } from '@/routes/navigate';
 
 const SuperAdminSidebar = () => {
   const pathname = usePathname();

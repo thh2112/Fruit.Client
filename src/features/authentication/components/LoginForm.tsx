@@ -1,151 +1,141 @@
 'use client';
 
-import LoginMethod from '@/features/authentication/components/LoginMethod';
-import ModalResetPassword from '@/features/authentication/components/ModalResetPassword';
-import { PUBLIC_ROUTER } from '@/routes';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Flex, Form, Input } from 'antd';
+import { localStorageKey } from '@/shared/constant';
+import { decrypted, encrypted } from '@/shared/helpers/security';
+import styled from '@emotion/styled';
+import { Alert, Button, Checkbox, Form, Input, theme } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { useEffect, useMemo, useState } from 'react';
+import { Lock, Mail } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+const FORM_NAME = 'login-form';
 
 enum LoginField {
   EMAIL = 'email',
   PASSWORD = 'password',
+  REMEMBER = 'remember',
 }
-interface FormField {
+export interface FormField {
   [LoginField.EMAIL]: string;
   [LoginField.PASSWORD]: string;
+  [LoginField.REMEMBER]: boolean;
 }
 
 interface ILoginFormProps {
-  disabled: boolean;
-  onSubmit: (data: FormField) => void;
+  loading: boolean;
+  errorMessage: string;
   initialValues?: FormField;
+  onSubmit: (data: FormField) => void;
+  setRemember: (remember: boolean) => void;
 }
 
-const LoginForm = ({ disabled, onSubmit, initialValues }: ILoginFormProps) => {
-  const [form] = useForm();
+const LoginForm = ({ loading, initialValues, errorMessage, onSubmit, setRemember }: ILoginFormProps) => {
+  const {
+    token: { colorIcon },
+  } = theme.useToken();
 
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const [disabledButton, setDisabledButton] = useState<boolean>(false);
-  const [openModalReset, setOpenModalReset] = useState<boolean>(false);
+  const [form] = useForm();
+  const [disabledButton, setDisabledButton] = useState<boolean>(true);
 
   const handleFieldsChange = () => {
     const hasError = form.getFieldsError().some((error) => error.errors.length > 0);
     setDisabledButton(hasError);
   };
 
-  const handleOpenModalReset = () => {
-    setOpenModalReset(true);
-  };
-
-  const getUserFromLocalStorage = useMemo(() => {
-    if (typeof window !== 'undefined') {
-      const user = localStorage.getItem('user');
-      if (!user) {
-        return null;
-      }
-      return JSON.parse(user);
+  const getUserData = (): Omit<FormField, 'remember'> | null => {
+    const encodeLocalKey = encrypted(localStorageKey.user);
+    const userData = localStorage.getItem(encodeLocalKey);
+    if (userData) {
+      const decodeUserData = decrypted(userData);
+      return JSON.parse(decodeUserData);
     }
+
     return null;
-  }, []);
+  };
 
   const handleOnSubmit = (data: FormField) => {
     onSubmit(data);
-
-    if (rememberMe) {
-      localStorage.setItem('user', JSON.stringify({ ...data }));
-    } else {
-      localStorage.removeItem('user');
-    }
   };
 
   useEffect(() => {
-    const user = getUserFromLocalStorage;
-    form.setFieldsValue(user);
-    if (user) {
+    const userData = getUserData();
+    if (userData) {
+      const { email, password } = userData;
+      form.setFieldsValue({
+        password,
+        email,
+      });
+      setRemember(true);
       setDisabledButton(false);
     }
   }, []);
 
   return (
     <>
-      <Flex align="center" justify="center" vertical style={{ height: '100vh' }}>
-        <Card
-          title="Login"
-          headStyle={{ textAlign: 'center', fontSize: 20 }}
-          bordered={true}
-          style={{ width: 400, padding: 10 }}
+      <Form
+        form={form}
+        name={FORM_NAME}
+        onFieldsChange={handleFieldsChange}
+        initialValues={initialValues}
+        onFinish={handleOnSubmit}
+      >
+        <FormItem
+          name={LoginField.EMAIL}
+          rules={[
+            {
+              type: 'email',
+              message: 'Incorrect email format, make sure you entered correctly',
+            },
+            {
+              required: true,
+              message: 'Please fill out this field',
+            },
+          ]}
         >
-          <Form
-            form={form}
-            name="normal_login"
-            className="login-form"
-            onFieldsChange={handleFieldsChange}
-            initialValues={initialValues}
-            onFinish={handleOnSubmit}
+          <Input size="large" placeholder="Email" prefix={<Mail size={16} color={colorIcon} />} maxLength={30} />
+        </FormItem>
+        <FormItem
+          name={LoginField.PASSWORD}
+          rules={[
+            {
+              required: true,
+              message: 'Please fill out this field',
+            },
+          ]}
+        >
+          <Input.Password
+            maxLength={16}
+            size="large"
+            placeholder="Password"
+            prefix={<Lock size={16} color={colorIcon} />}
+          />
+        </FormItem>
+
+        <FormItem name={LoginField.REMEMBER} valuePropName="checked">
+          <Checkbox>Remember me</Checkbox>
+        </FormItem>
+
+        {errorMessage && <Alert message={errorMessage} type="error" style={{ marginBottom: 24 }} />}
+
+        <FormItem>
+          <Button
+            loading={loading}
+            disabled={disabledButton}
+            size="large"
+            type="primary"
+            htmlType="submit"
+            style={{ marginBottom: 0, width: '100%' }}
           >
-            <Form.Item
-              name="username"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Username!',
-                },
-              ]}
-            >
-              <Input size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Password!',
-                },
-              ]}
-            >
-              <Input
-                size="large"
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Password"
-              />
-            </Form.Item>
-            <Form.Item>
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)}>
-                  Remember me
-                </Checkbox>
-              </Form.Item>
-
-              <a onClick={handleOpenModalReset} className="login-form-forgot">
-                Forgot password
-              </a>
-            </Form.Item>
-
-            <Form.Item>
-              <Button
-                disabled={disabledButton}
-                size="large"
-                type="primary"
-                htmlType="submit"
-                style={{ width: '100%', marginBottom: 20 }}
-              >
-                Log in
-              </Button>
-              <LoginMethod />
-              Don't have account ? <a href={PUBLIC_ROUTER.REGISTER}>Register now!</a>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Flex>
-      ;
-      {openModalReset && (
-        <ModalResetPassword openModalReset={openModalReset} setOpenModalReset={() => setOpenModalReset(false)} />
-      )}
+            Log In
+          </Button>
+        </FormItem>
+      </Form>
     </>
   );
 };
+
+export const FormItem = styled(Form.Item)({
+  width: '100%',
+});
 
 export default LoginForm;

@@ -10,16 +10,17 @@ import { Alert, Flex, Spin } from 'antd';
 import { useMemo } from 'react';
 import _get from 'lodash/get';
 import { useSearchParams } from 'next/navigation';
-function ProjectPage() {
+
+const ProjectPage = () => {
   const { getValueFilter } = useFilter();
   const searchParams = useSearchParams();
 
   const payload: IProjectSearchParams = useMemo(() => {
     const keyword = getValueFilter(KeySearchParamsEnum.KEYWORD) || '';
     const status = Number(getValueFilter(KeySearchParamsEnum.STATUS)) || ProjectStatus.ACTIVE;
-    const  pageNumber = Number(getValueFilter(KeySearchParamsEnum.PAGE_NUMBER));
+    const pageNumber = Number(getValueFilter(KeySearchParamsEnum.PAGE_NUMBER));
     return { keyword, status, pageNumber };
-  }, [searchParams])
+  }, [searchParams]);
 
   const { isLoading, data, paging, errorMessage } = useProjects(payload);
 
@@ -32,7 +33,7 @@ function ProjectPage() {
     return { keyword, status, member };
   }, []);
 
-  const handleClickBtn = () => {}
+  const handleClickBtn = () => {};
 
   if (isLoading) {
     return (
@@ -43,11 +44,11 @@ function ProjectPage() {
   }
   return (
     <>
-      {errorMessage && <Alert message={errorMessage} type="success" />}
+      {errorMessage && <Alert message={errorMessage} type="error" />}
       <ProjectFilter loading={isLoading} initialValues={initialFilter} onClickBtn={handleClickBtn} />
       <ProjectList loading={isLoading} projects={data} totalItems={totalItems} />
     </>
   );
-}
+};
 
 export default ProjectPage;

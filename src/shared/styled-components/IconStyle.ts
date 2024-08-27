@@ -1,5 +1,4 @@
 import _styled from '@emotion/styled';
-import { theme } from 'antd';
 
 const IconStyled = _styled.div((props) => ({
   display: 'flex',

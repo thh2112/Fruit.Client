@@ -7,6 +7,7 @@ export const apiVersion: ApiVersion = {
 export const DEFAULT_LANGUAGE = 'en';
 export const HEADER_HEIGHT = 60;
 export const SIDEBAR_WIDTH = 240;
+export const DRAWER_WIDTH = 320;
 
 export const DEFAULT_PAGE_NUMBER = 1;
 export const DEFAULT_PAGE_SIZE = 10;

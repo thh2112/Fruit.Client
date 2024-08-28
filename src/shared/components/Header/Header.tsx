@@ -6,12 +6,15 @@ import Logo from '@/shared/components/logo/Logo';
 import { Bell } from 'lucide-react';
 import DropdownNotification from '@/shared/components/dropdown/DropdownNotification';
 import DropdownProfile from '@/shared/components/dropdown/DropdownProfile';
+import { useMediaQuery } from '@/shared/hooks/useMediaQuery';
+import SidebarMenuMobile from '@/shared/components/sidebar/SidebarMenuMobile';
 
 const Header = () => {
   const {
-    token: { paddingLG },
+    token: { paddingLG, screenMDMin },
   } = theme.useToken();
 
+  const isDesktop = useMediaQuery(`only screen and (min-width : ${screenMDMin}px)`);
   return (
     <HeaderContainer>
       <Logo />
@@ -30,7 +33,7 @@ const Header = () => {
         >
           <Bell size={24} style={{ cursor: 'pointer' }} />
         </Popover>
-        <DropdownProfile />
+        {isDesktop ? <DropdownProfile /> : <SidebarMenuMobile />}
       </Flex>
     </HeaderContainer>
   );

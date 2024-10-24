@@ -1,97 +1,71 @@
 'use client';
-import LoginMethod from '@/features/authentication/components/LoginMethod';
-import { Button, Card, Divider, Flex, Form, Input } from 'antd';
-import React from 'react';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import withTheme from '@/libs/antd/theme';
-enum LoginField {
-  EMAIL = 'email',
-  PASSWORD = 'password',
-}
 
-interface RegisterInputs {
-  [LoginField.EMAIL]: string;
-  [LoginField.PASSWORD]: string;
-}
+import RegisterBanner from '@/features/authentication/components/RegisterBanner';
+import RegisterForm from '@/features/authentication/components/RegisterForm';
+import useRegister from '@/features/authentication/hooks/useRegister';
+import { RegisterPayload } from '@/features/authentication/types/auth';
+import withTheme, { IThemeAntd } from '@/libs/antd/theme';
+import { authSetting } from '@/routes/navigate';
+import Logo from '@/shared/components/logo/Logo';
+import { HEADER_HEIGHT, REGISTER_BANNER } from '@/shared/constant';
+import { GenderEnum } from '@/shared/enums';
+import styled from '@emotion/styled';
+import { Divider, Flex, Typography } from 'antd';
+import { useRouter } from 'next/navigation';
+const { Title } = Typography;
 
-interface IRegisterProps {
-  disabled: boolean;
-  onSubmit: (data: RegisterInputs) => void;
-}
+const RegisterPage = () => {
+  const router = useRouter();
 
-const RegisterPage = ({ disabled, onSubmit }: IRegisterProps) => {
-  const [form] = Form.useForm();
-  const [disabledButton, setDisabledButton] = React.useState<boolean>(disabled);
-
-  const handleChangeFields = () => {
-    const hasError = form.getFieldsError().some((error) => error.errors.length > 0);
-
-    setDisabledButton(hasError);
+  const initialValues: RegisterPayload = {
+    email: '',
+    password: '',
+    fullName: '',
+    phone: '',
+    gender: GenderEnum.FEMALE,
   };
 
-  const onHandleSubmit = (data: RegisterInputs) => {};
-  return withTheme(
-    <Flex style={{ height: '100vh' }} align="center" justify="center">
-      <Card
-        title="Register"
-        headStyle={{ textAlign: 'center', fontSize: 20 }}
-        bordered={true}
-        style={{ width: 400, padding: 10 }}
-      >
-        <Form
-          form={form}
-          name="normal_login"
-          className="login-form"
-          onFieldsChange={handleChangeFields}
-          onFinish={onHandleSubmit}
-        >
-          <Form.Item
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Username!',
-              },
-            ]}
-          >
-            <Input size="large" prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-          </Form.Item>
-          <Form.Item
-            style={{ marginBottom: 40 }}
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Password!',
-              },
-            ]}
-          >
-            <Input
-              size="large"
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Item>
+  const handleSuccess = () => {
+    router.replace(authSetting.login(), { scroll: false });
+  };
 
-          <Form.Item>
-            <Button
-              disabled={disabledButton}
-              size="large"
-              type="primary"
-              htmlType="submit"
-              style={{ width: '100%', marginBottom: 20 }}
-            >
-              Register
-            </Button>
-            <Divider>Or login with</Divider>
-            <LoginMethod />
-            You have account ? <a href="/login">Login now!</a>
-          </Form.Item>
-        </Form>
-      </Card>
-    </Flex>,
+  const { trigger, errorMessage } = useRegister({ onSuccess: handleSuccess });
+  const handleSubmit = (data: RegisterPayload) => {
+    trigger(data);
+  };
+
+  console.log('Register', errorMessage);
+  return withTheme(
+    <div style={{ height: `calc(100vh - ${HEADER_HEIGHT}px)` }}>
+      <RegisterContainer>
+        <RegisterBanner image={REGISTER_BANNER} />
+        <RightContentContainer>
+          <Logo />
+          <div>
+            <Title level={4}>Your user account</Title>
+            <Divider style={{ marginTop: 0 }} />
+            <RegisterForm initialValues={initialValues} onSubmit={handleSubmit} errorMessage={errorMessage} />
+          </div>
+        </RightContentContainer>
+      </RegisterContainer>
+    </div>,
   );
 };
+
+export const RegisterContainer = styled(Flex)(() => ({
+  display: 'flex',
+  height: '100%',
+  marginTop: HEADER_HEIGHT,
+  width: '100vw',
+}));
+
+export const RightContentContainer = styled.div((props) => ({
+  backgroundColor: (props.theme as IThemeAntd)?.antdToken?.blue1,
+  padding: (props.theme as IThemeAntd)?.antdToken?.paddingXL,
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: (props.theme as IThemeAntd)?.antdToken?.paddingXL,
+}));
 
 export default RegisterPage;

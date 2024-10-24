@@ -1,3 +1,4 @@
+import { Languages } from './enums';
 import { ApiVersion } from './types/api-response';
 
 export const apiVersion: ApiVersion = {
@@ -22,3 +23,7 @@ export const localStorageKey = {
 };
 
 export const LOGO = '/assets/images/logo.png';
+export const REGISTER_BANNER = '/assets/images/auth/sign-in.svg';
+
+export const defaultLanguage = 'en';
+export const languages = [defaultLanguage, Languages.VI];

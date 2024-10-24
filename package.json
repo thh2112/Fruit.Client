@@ -13,6 +13,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@lottiefiles/react-lottie-player": "^3.5.4",
+    "accept-language": "^3.0.20",
     "antd": "^5.18.3",
     "axios": "^1.7.4",
     "crypto-js": "^4.2.0",

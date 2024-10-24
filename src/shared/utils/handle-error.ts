@@ -4,9 +4,9 @@ import _toString from 'lodash/toString';
 
 export function handleResponseErrors(error: unknown) {
   const success = false;
-  const status = Number(_get(error, 'response.data.status', 500));
+  const status = Number(_get(error, 'response.data.statusCode', 500));
 
-  const errorMessage = _get(error, 'response.data.message', 'An error occurred. Please try again!');
+  const errorMessage = _get(error, 'response.data.errorMessage', 'An error occurred. Please try again!');
   const resultErrors = {
     success,
     status,

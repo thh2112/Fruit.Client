@@ -1,10 +1,11 @@
 const ENV = {
-  API_URL: process.env.NEXT_API_URL,
+  API_URL: process.env.NEXT_PUBLIC_API_URL,
   NEXT_AUTH_URL: process.env.NEXT_AUTH_URL,
   NEXT_AUTH_SECRET: process.env.NEXT_AUTH_SECRET,
   NEXT_AUTH_TOKEN_LIFE: process.env.NEXT_AUTH_TOKEN_LIFE,
   CRYPTO_KEY_SIZE: process.env.NEXT_PUBLIC_CRYPTO_KEY_SIZE,
   SECRET_KEY: process.env.NEXT_PUBLIC_SECRET_KEY,
+  ALLOW_ORIGINS_URL: process.env.ALLOW_ORIGINS_URL,
 };
 
 export { ENV };

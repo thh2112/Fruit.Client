@@ -1,8 +1,9 @@
+import { ENV } from '@/environment';
 import { localStorageToken } from '@/shared/types/token';
 import axios, { AxiosInstance } from 'axios';
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: '/',
+  baseURL: `${ENV.API_URL}/`,
   headers: {
     'Cache-Control': 'no-cache',
   },

@@ -24,7 +24,6 @@ const asyncHandler = (fn: AsyncHandler) => {
           {
             success: false,
             errorMessage: error.message,
-            errorMessageCode: error.errorMessageCode,
             data: null,
           },
           { status: error.status },

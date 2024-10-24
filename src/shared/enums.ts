@@ -7,3 +7,19 @@ export enum KeySearchParamsEnum {
   KEYWORD = 'keyword',
   MEMBER = 'member',
 }
+
+export enum GenderEnum {
+  MALE = 1,
+  FEMALE = 2,
+  OTHER = 3,
+}
+
+export enum Languages {
+  EN = 'en',
+  VI = 'vi',
+}
+
+export enum LongCodeLanguages {
+  EN = 'en-US',
+  VI = 'vi-VN',
+}

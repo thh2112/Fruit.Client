@@ -1,8 +1,7 @@
 import RegisterPage from './RegisterPage';
 
-const Register = () => {
-  const disabled = true;
-  return <RegisterPage disabled={disabled} />;
+const Page = () => {
+  return <RegisterPage />;
 };
 
-export default Register;
+export default Page;

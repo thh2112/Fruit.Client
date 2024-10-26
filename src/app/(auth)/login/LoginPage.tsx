@@ -63,7 +63,7 @@ const LoginPage = () => {
       };
 
       const response = await signIn('credentials', { ...payload, redirect: false, callbackUrl });
-      console.log(response);
+
       if (response?.error) {
         setErrorMessage(response.error);
         setLoading(false);

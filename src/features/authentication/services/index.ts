@@ -8,7 +8,7 @@ import { User } from '@/shared/types/user';
 
 const authService = {
   login: async (payload: IAuthPayload) => {
-    const response = await axios.post<ApiResponse<IAuth>>(endpoint.login(apiVersion), payload);
+    const response = await apiClient.post<ApiResponse<IAuth>>(endpoint.login(apiVersion), payload);
     return response.data;
   },
   register: async (url: string, { arg: payload }: { arg: RegisterPayload }) => {

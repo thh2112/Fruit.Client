@@ -20,4 +20,7 @@ export const authSetting = {
   register: () => {
     return addSlackToRoute(AUTH_ROUTER.REGISTER);
   },
+  error: () => {
+    return addSlackToRoute(AUTH_ROUTER.ERROR_PAGE);
+  },
 };

@@ -14,22 +14,23 @@ const useRegister = ({ onSuccess, onError }: RegisterMutationProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const { trigger, error, ...restSWR } = useSWRMutation(endpoint.register(apiVersion), authService.register, {
-    onSuccess: (data) => {
-      if (data.data !== null) {
-        setUser(data.data);
-        onSuccess?.();
-      }
+  const { trigger, error, isMutating, ...restSWR } = useSWRMutation(
+    endpoint.register(apiVersion),
+    authService.register,
+    {
+      onSuccess: (data) => {
+        if (data.data !== null) {
+          setUser(data.data);
+          onSuccess?.();
+        }
+      },
+      onError: (error) => {
+        onError?.();
+      },
     },
-    onError: (error) => {
-      console.log('error', error);
-      const { errorMessage } = handleResponseErrors(error);
-      setErrorMessage(errorMessage);
-      onError?.();
-    },
-  });
+  );
 
-  return { ...restSWR, trigger, user, errorMessage };
+  return { ...restSWR, trigger, user, errorMessage, setErrorMessage, isMutating };
 };
 
 export default useRegister;

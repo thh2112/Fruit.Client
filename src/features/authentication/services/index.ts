@@ -12,12 +12,8 @@ const authService = {
     return response.data;
   },
   register: async (url: string, { arg: payload }: { arg: RegisterPayload }) => {
-    try {
-      const response = await apiClient.post<ApiResponse<User>>(url, payload);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+    const response = await apiClient.post<ApiResponse<User>>(url, payload);
+    return response.data;
   },
 };
 

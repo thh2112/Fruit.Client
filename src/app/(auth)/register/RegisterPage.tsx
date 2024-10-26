@@ -9,10 +9,12 @@ import { authSetting } from '@/routes/navigate';
 import Logo from '@/shared/components/logo/Logo';
 import { HEADER_HEIGHT, REGISTER_BANNER } from '@/shared/constant';
 import { GenderEnum } from '@/shared/enums';
+import { handleResponseErrors } from '@/shared/utils';
 import styled from '@emotion/styled';
-import { Divider, Flex, Typography } from 'antd';
+import { Divider, Flex, theme, Typography } from 'antd';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -29,12 +31,17 @@ const RegisterPage = () => {
     router.replace(authSetting.login(), { scroll: false });
   };
 
-  const { trigger, errorMessage } = useRegister({ onSuccess: handleSuccess });
-  const handleSubmit = (data: RegisterPayload) => {
-    trigger(data);
+  const { trigger, errorMessage, setErrorMessage, isMutating } = useRegister({ onSuccess: handleSuccess });
+  const handleSubmit = async (data: RegisterPayload) => {
+    try {
+      setErrorMessage('');
+      await trigger(data);
+    } catch (error) {
+      const { errorMessage } = handleResponseErrors(error);
+      setErrorMessage(errorMessage);
+    }
   };
 
-  console.log('Register', errorMessage);
   return withTheme(
     <div style={{ height: `calc(100vh - ${HEADER_HEIGHT}px)` }}>
       <RegisterContainer>
@@ -44,7 +51,22 @@ const RegisterPage = () => {
           <div>
             <Title level={4}>Your user account</Title>
             <Divider style={{ marginTop: 0 }} />
-            <RegisterForm initialValues={initialValues} onSubmit={handleSubmit} errorMessage={errorMessage} />
+            <RegisterForm
+              initialValues={initialValues}
+              onSubmit={handleSubmit}
+              errorMessage={errorMessage}
+              loading={isMutating}
+            />
+            <Flex justify="center" align="center" gap="small">
+              <Text strong type="secondary">
+                Already have an account?
+              </Text>
+              <Link href={authSetting.login()}>
+                <Text type="success" strong>
+                  Sign in
+                </Text>
+              </Link>
+            </Flex>
           </div>
         </RightContentContainer>
       </RegisterContainer>

@@ -2,6 +2,7 @@
 import { REGISTER_BANNER } from '@/shared/constant';
 import { useMemo, useState } from 'react';
 import styled from '@emotion/styled';
+import { media } from '@/shared/styles/media-queries';
 
 interface RegisterBannerProps {
   image: string;
@@ -20,13 +21,14 @@ interface BannerContainerProps {
   imageUrl: string;
 }
 export const BannerContainer = styled.div<BannerContainerProps>((props) => ({
-  flex: 2,
-  position: 'relative',
-  height: '100%',
-  width: '100%',
+  paddingLeft: '66%',
   backgroundImage: `url(${props.imageUrl})`,
   backgroundSize: 'cover',
   backgroundPositionY: 'center',
+  display: 'none',
+  [media('xl')]: {
+    display: 'flex',
+  },
 }));
 
 export default RegisterBanner;

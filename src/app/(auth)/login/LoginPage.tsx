@@ -2,20 +2,21 @@
 
 import LoginForm, { FormField } from '@/features/authentication/components/LoginForm';
 import withTheme, { IThemeAntd } from '@/libs/antd/theme';
-import { routeSetting } from '@/routes/navigate';
+import { authSetting, routeSetting } from '@/routes/navigate';
 import { localStorageKey } from '@/shared/constant';
 import { encrypted } from '@/shared/helpers/security';
 import { media } from '@/shared/styles/media-queries';
 import { handleResponseErrors } from '@/shared/utils';
 import styled from '@emotion/styled';
-import { Col, Row, Typography, theme } from 'antd';
+import { Col, Flex, Row, Typography, theme } from 'antd';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import _toString from 'lodash/toString';
 import _get from 'lodash/get';
+import Link from 'next/link';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const LoginPage = () => {
   const {
@@ -96,6 +97,16 @@ const LoginPage = () => {
           setRemember={() => setRemember(remember)}
           onSubmit={handleLogin}
         />
+        <Flex justify="center" align="center" gap="small">
+          <Text strong type="secondary">
+            Already have an account?
+          </Text>
+          <Link href={authSetting.register()}>
+            <Text type="warning" strong>
+              Register
+            </Text>
+          </Link>
+        </Flex>
       </Column>
     </Row>,
   );

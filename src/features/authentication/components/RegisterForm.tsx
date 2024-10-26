@@ -23,8 +23,9 @@ interface RegisterFormProps {
   initialValues: RegisterPayload;
   errorMessage?: string;
   onSubmit: (data: RegisterPayload) => void;
+  loading: boolean;
 }
-function RegisterForm({ initialValues, onSubmit, errorMessage }: RegisterFormProps) {
+function RegisterForm({ initialValues, onSubmit, errorMessage, loading }: RegisterFormProps) {
   const [form] = useForm();
   const [disabledForm, setDisabledForm] = useState<boolean>(true);
 
@@ -123,23 +124,10 @@ function RegisterForm({ initialValues, onSubmit, errorMessage }: RegisterFormPro
         <Select placeholder="Please enter gender" size="large" options={genderOptions} />
       </Form.Item>
 
-      <Form.Item
-        label="Phone number"
-        name={FormFieldLabel.PHONE}
-        rules={[
-          {
-            required: true,
-            message: 'Please fill out this field',
-          },
-        ]}
-      >
-        <Input placeholder="Please enter phone number" size="large" maxLength={15} />
-      </Form.Item>
-
       {errorMessage && <Alert type="error" message={errorMessage} style={{ marginBottom: 24 }} />}
 
       <Form.Item style={{ width: '100%', textAlign: 'right' }}>
-        <Button size="large" type="primary" htmlType="submit" disabled={disabledForm}>
+        <Button size="large" type="primary" htmlType="submit" disabled={disabledForm} loading={loading}>
           Submit
         </Button>
       </Form.Item>

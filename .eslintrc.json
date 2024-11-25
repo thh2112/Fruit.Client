@@ -36,10 +36,7 @@
         "jsx": "never"
       }
     ],
-    "max-lines-per-function": [
-      "warn",
-      { "max": 500, "skipBlankLines": true, "skipComments": true }
-    ],
+    "max-lines-per-function": ["warn", { "max": 500, "skipBlankLines": true, "skipComments": true }],
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
@@ -48,10 +45,7 @@
         "aspects": ["invalidHref", "preferButton"]
       }
     ],
-    "simple-import-sort/imports": [
-      "error",
-      { "groups": [["^\\u0000", "^@?\\w", "^[^.]", "^\\."]] }
-    ],
+    "simple-import-sort/imports": ["error", { "groups": [["^\\u0000", "^@?\\w", "^[^.]", "^\\."]] }],
     "simple-import-sort/exports": "error"
   }
 }

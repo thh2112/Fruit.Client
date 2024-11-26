@@ -1,5 +1,6 @@
 'use client';
 
+import { clientSetting } from '@/routes';
 import { Player } from '@lottiefiles/react-lottie-player';
 import { Button, Flex, Layout } from 'antd';
 import { useRouter } from 'next/navigation';
@@ -9,7 +10,7 @@ const { Content } = Layout;
 export default function NotFoundPage() {
   const router = useRouter();
   const navigateToHome = () => {
-    router.push('/');
+    router.push(clientSetting.homePage());
   };
 
   return (

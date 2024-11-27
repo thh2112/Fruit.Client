@@ -1,13 +1,13 @@
 import { CopyrightContainer, MainFooterContainer } from '@/shared/styled-components/footers/main-footer';
 import { Divider, Flex, Typography } from 'antd';
-import Image from 'next/image';
+import Logo from '../Logo';
 import SocialMedia from './SocialMedia';
 
 const MainFooter = () => {
   return (
     <MainFooterContainer>
       <Flex align="center" justify="center" vertical gap="middle">
-        <Image src="/assets/logo.png" alt="logo" width={100} height={28} />
+        <Logo />
         <Typography.Title level={5} style={{ textTransform: 'uppercase', margin: 0, textAlign: 'center' }}>
           Công ty thực phẩm hữu cơ & tự nhiên Sea Fruits
         </Typography.Title>

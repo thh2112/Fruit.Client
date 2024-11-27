@@ -1,9 +1,10 @@
+import Providers from '@/app/providers';
+import { DEFAULT_LANGUAGE } from '@/constanst/consts';
+import StyledComponentsRegistry from '@/libs/antd/antd-registry';
+import CustomStyleConfigProvider from '@/libs/antd/custom-config-provider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { AntdRegistry } from '@ant-design/nextjs-registry';
-import Providers from '@/app/providers';
-import { DEFAULT_LANGUAGE } from '@/constanst/consts';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,9 +22,11 @@ export default async function RootLayout({
   return (
     <html lang={DEFAULT_LANGUAGE} dir="ltr">
       <body className={inter.className} suppressHydrationWarning>
-        <AntdRegistry>
-          <Providers>{children}</Providers>
-        </AntdRegistry>
+        <StyledComponentsRegistry>
+          <CustomStyleConfigProvider>
+            <Providers>{children}</Providers>
+          </CustomStyleConfigProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

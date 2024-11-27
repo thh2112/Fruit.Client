@@ -9,6 +9,7 @@ const MainBannerContainer = styled.div({
   backgroundImage: `url(${MAIN_HOME_PAGE_IMAGE})`,
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
+  width: '100%',
   height: MAIN_BANNER_MIN_HEIGHT,
   [media('sm')]: {
     height: MAIN_BANNER_MAX_HEIGHT,

@@ -3,7 +3,7 @@ import Logo from '../Logo';
 import MainHeaderAuthSection from './MainHeaderAuthSection';
 import { Divider, Flex } from 'antd';
 import MultiLanguage from '../MultiLanguage';
-import HeaderNav from './HeaderNav';
+import TheHeaderNav from './TheHeaderNav';
 
 const MainHeader = () => {
   const onLogin = () => {};
@@ -14,7 +14,7 @@ const MainHeader = () => {
       <FlexContainer align="center">
         <Logo />
         <div style={{ flex: 1, textAlign: 'center' }}>
-          <HeaderNav />
+          <TheHeaderNav />
         </div>
         <Flex justify="end" align="center" gap="middle">
           <MultiLanguage />

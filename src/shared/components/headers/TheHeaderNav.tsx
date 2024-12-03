@@ -55,9 +55,9 @@ const HeaderNav = () => {
 
   return (
     <NavContainer>
-      {_map(nav, (item) => {
+      {_map(nav, (item, index) => {
         return (
-          <NavItem href={item.link}>
+          <NavItem href={item.link} key={index}>
             <TextStyled isSelected={item.link === selectedTab?.link}>{item.label}</TextStyled>
           </NavItem>
         );

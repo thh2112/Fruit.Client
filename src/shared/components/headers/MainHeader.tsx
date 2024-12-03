@@ -1,13 +1,26 @@
+'use client';
+
+import { authSetting } from '@/routes';
 import { FlexContainer, MainHeaderContainer } from '@/shared/styled-components/headers/main-header';
-import Logo from '../Logo';
-import MainHeaderAuthSection from './MainHeaderAuthSection';
 import { Divider, Flex } from 'antd';
+import { useRouter } from 'next/navigation';
+import Logo from '../Logo';
 import MultiLanguage from '../MultiLanguage';
+import MainHeaderAuthSection from './MainHeaderAuthSection';
 import TheHeaderNav from './TheHeaderNav';
 
 const MainHeader = () => {
-  const onLogin = () => {};
-  const onRegister = () => {};
+  const router = useRouter();
+
+  const onLogin = () => {
+    console.log('onLogin', authSetting.login());
+    router.push(authSetting.login());
+  };
+
+  const onRegister = () => {
+    console.log('onRegister', authSetting.register());
+    router.push(authSetting.register());
+  };
 
   return (
     <MainHeaderContainer>

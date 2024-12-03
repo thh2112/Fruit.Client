@@ -1,5 +1,5 @@
 const AUTH_ROUTE = {
-  BASE: '/auth',
+  BASE: '/',
   SIGN_IN: 'sign-in',
   SIGN_UP: 'sign-up',
   FORGOT_PASSWORD: 'forgot-password',

@@ -8,10 +8,12 @@ interface MainHeaderAuthSectionProps {
 const MainHeaderAuthSection = ({ onLogin, onRegister }: MainHeaderAuthSectionProps) => {
   return (
     <Flex gap="middle">
-      <ButtonAuthStyle type="primary" size="large">
+      <ButtonAuthStyle type="primary" size="large" onClick={onLogin}>
         Log in
       </ButtonAuthStyle>
-      <ButtonAuthStyle size="large">Register</ButtonAuthStyle>
+      <ButtonAuthStyle size="large" onClick={onRegister}>
+        Register
+      </ButtonAuthStyle>
     </Flex>
   );
 };

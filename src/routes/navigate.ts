@@ -1,11 +1,11 @@
 import { ADMIN_ROUTE, AUTH_ROUTE, CLIENT_ROUTE } from './route-path';
 
 const authSetting = {
-  login: () => `${AUTH_ROUTE.BASE}/${AUTH_ROUTE.SIGN_IN}`,
-  register: () => `${AUTH_ROUTE.BASE}/${AUTH_ROUTE.SIGN_UP}`,
-  forgotPassword: () => `${AUTH_ROUTE.BASE}/${AUTH_ROUTE.FORGOT_PASSWORD}`,
-  resetPassword: () => `${AUTH_ROUTE.BASE}/${AUTH_ROUTE.RESET_PASSWORD}`,
-  verifyEmail: () => `${AUTH_ROUTE.BASE}/${AUTH_ROUTE.VERIFY_EMAIL}`,
+  login: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.SIGN_IN}`,
+  register: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.SIGN_UP}`,
+  forgotPassword: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.FORGOT_PASSWORD}`,
+  resetPassword: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.RESET_PASSWORD}`,
+  verifyEmail: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.VERIFY_EMAIL}`,
 };
 
 const clientSetting = {

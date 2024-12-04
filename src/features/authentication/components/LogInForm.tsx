@@ -1,31 +1,24 @@
-import { passwordRegex } from '@/constanst/consts';
-import { Button, Checkbox, Flex, Form, Input, Typography, theme } from 'antd';
-import { Lock, Mail } from 'lucide-react';
-import { FormItem } from '../styled-components';
-import { useEffect, useState } from 'react';
+import { localStorageKey } from '@/constanst/consts';
+import { decrypted, encrypted } from '@/shared/utils';
+import { Alert, Button, Checkbox, Flex, Form, Input, theme } from 'antd';
 import _some from 'lodash/some';
+import { Lock, Mail } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
+import { FormItem } from '../styled-components';
+import { SignInFormLabel, SignInFormValue } from '../types/auth';
 
 const LOGIN_FORM = 'login-form';
-enum FormLabelType {
-  Email = 'email',
-  Password = 'password',
-  RememberMe = 'rememberMe',
-}
-const requiredFields = [FormLabelType.Email, FormLabelType.Password];
 
-interface LoginFormValue {
-  [FormLabelType.Email]: string;
-  [FormLabelType.Password]: string;
-  [FormLabelType.RememberMe]: boolean;
-}
+const requiredFields = [SignInFormLabel.Email, SignInFormLabel.Password];
 
 interface LoginFormProps {
-  onSubmit: (formValue: LoginFormValue) => void;
-  initialValue: LoginFormValue;
+  onSubmit: (formValue: SignInFormValue) => void;
+  initialValue: SignInFormValue;
   loading: boolean;
+  errorMessage: string | null;
 }
-export const LogInForm = ({ onSubmit, initialValue, loading }: LoginFormProps) => {
+export const LogInForm = ({ onSubmit, initialValue, loading, errorMessage }: LoginFormProps) => {
   const [disabledForm, setDisabledForm] = useState<boolean>(true);
 
   const {
@@ -33,8 +26,19 @@ export const LogInForm = ({ onSubmit, initialValue, loading }: LoginFormProps) =
   } = theme.useToken();
 
   const [form] = Form.useForm();
+  const rememberMe = Form.useWatch(SignInFormLabel.RememberMe, form);
 
-  const handleOnSubmit = (formValue: LoginFormValue) => {
+  const getUserData: SignInFormValue = useMemo(() => {
+    const encodeLocalKey = encrypted(localStorageKey.userInfo);
+    const userData = localStorage.getItem(encodeLocalKey);
+    if (userData) {
+      const decodeUserData = decrypted(userData);
+      return JSON.parse(decodeUserData);
+    } else {
+      return null;
+    }
+  }, []);
+  const handleOnSubmit = (formValue: SignInFormValue) => {
     onSubmit(formValue);
   };
 
@@ -45,8 +49,17 @@ export const LogInForm = ({ onSubmit, initialValue, loading }: LoginFormProps) =
     setDisabledForm(hasErrors || !isFieldsTouched);
   };
 
+  useEffect(() => {
+    if (getUserData) {
+      form.setFieldsValue({ ...getUserData });
+      setDisabledForm(false);
+      return;
+    }
+    form.setFieldsValue({ ...initialValue });
+  }, [initialValue, getUserData]);
+
   return (
-    <Form<LoginFormValue>
+    <Form<SignInFormValue>
       form={form}
       autoComplete="off"
       name={LOGIN_FORM}
@@ -57,7 +70,7 @@ export const LogInForm = ({ onSubmit, initialValue, loading }: LoginFormProps) =
       style={{ width: 540, maxWidth: '100%' }}
     >
       <FormItem
-        name={FormLabelType.Email}
+        name={SignInFormLabel.Email}
         rules={[
           { required: true, message: 'Please input your email!' },
           {
@@ -70,25 +83,9 @@ export const LogInForm = ({ onSubmit, initialValue, loading }: LoginFormProps) =
       </FormItem>
       <FormItem
         required
-        name={FormLabelType.Password}
-        dependencies={[FormLabelType.Password]}
-        rules={[
-          {
-            validator: async (_, value) => {
-              if (!value) {
-                return Promise.reject(new Error('Please input your password!'));
-              }
-              if (!passwordRegex.test(value)) {
-                return Promise.reject(
-                  new Error(
-                    'The password must be a string from 8 to 16 character long, without any white space, and include both capital and lowercase letters, special characters as well as numbers',
-                  ),
-                );
-              }
-              return Promise.resolve();
-            },
-          },
-        ]}
+        name={SignInFormLabel.Password}
+        dependencies={[SignInFormLabel.Password]}
+        rules={[{ required: true, message: 'Please input your password!' }]}
       >
         <Input.Password
           size="large"
@@ -97,14 +94,22 @@ export const LogInForm = ({ onSubmit, initialValue, loading }: LoginFormProps) =
           prefix={<Lock size={16} color={colorIcon} />}
         />
       </FormItem>
-      <FormItem name={FormLabelType.RememberMe}>
+      <FormItem name={SignInFormLabel.RememberMe} valuePropName="checked">
         <Flex align="center" justify="space-between">
-          <Checkbox>Remember me</Checkbox>
+          <Checkbox checked={rememberMe}>Remember me</Checkbox>
           <Link href={'/'}>Forgot Password?</Link>
         </Flex>
       </FormItem>
+      {errorMessage && <Alert type="error" message={errorMessage} style={{ marginBottom: 24 }} />}
       <FormItem style={{ margin: 0 }}>
-        <Button type="primary" size="large" style={{ width: '100%' }} htmlType="submit" disabled={disabledForm}>
+        <Button
+          type="primary"
+          size="large"
+          style={{ width: '100%' }}
+          htmlType="submit"
+          disabled={disabledForm}
+          loading={loading}
+        >
           Log In
         </Button>
       </FormItem>

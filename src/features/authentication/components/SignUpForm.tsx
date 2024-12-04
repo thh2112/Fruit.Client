@@ -1,47 +1,35 @@
-import { Button, Form, Input, theme } from 'antd';
+import { Alert, Button, Form, Input, theme } from 'antd';
 import { FormItem } from '../styled-components';
 import { Mail, Lock, User, Phone } from 'lucide-react';
 import { passwordRegex } from '@/constanst/consts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import _some from 'lodash/some';
+import { SignUpFormLabel, SignUpFormValue } from '../types/auth';
 
-enum FormLabelType {
-  Email = 'email',
-  Password = 'password',
-  ConfirmPassword = 'confirmPassword',
-  FirstName = 'firstName',
-  LastName = 'lastName',
-  PhoneNumber = 'phoneNumber',
-}
 const SIGN_UP_FORM = 'sign-up-form';
 
 const requiredFields: (keyof SignUpFormValue)[] = [
-  FormLabelType.Email,
-  FormLabelType.Password,
-  FormLabelType.ConfirmPassword,
-  FormLabelType.FirstName,
-  FormLabelType.LastName,
-  FormLabelType.PhoneNumber,
+  SignUpFormLabel.Email,
+  SignUpFormLabel.Password,
+  SignUpFormLabel.ConfirmPassword,
+  SignUpFormLabel.FirstName,
+  SignUpFormLabel.LastName,
+  SignUpFormLabel.PhoneNumber,
 ];
 
-interface SignUpFormValue {
-  [FormLabelType.Email]: string;
-  [FormLabelType.Password]: string;
-  [FormLabelType.ConfirmPassword]: string;
-  [FormLabelType.FirstName]: string;
-  [FormLabelType.LastName]: string;
-  [FormLabelType.PhoneNumber]: string;
-}
 interface SignUpFormProps {
   loading: boolean;
   onSubmit: (formValue: SignUpFormValue) => void;
+  errorMessage: string | null;
+  isRegisterSuccess: boolean;
 }
 
-const SignUpForm = ({ loading, onSubmit }: SignUpFormProps) => {
+const SignUpForm = ({ loading, onSubmit, errorMessage, isRegisterSuccess }: SignUpFormProps) => {
   const {
     token: { colorIcon },
   } = theme.useToken();
 
+  const [form] = Form.useForm();
   const [disabledForm, setDisabledForm] = useState<boolean>(true);
 
   const handleOnFinish = (formValue: SignUpFormValue) => {
@@ -55,19 +43,27 @@ const SignUpForm = ({ loading, onSubmit }: SignUpFormProps) => {
     setDisabledForm(hasErrors || !isFieldsTouched);
   };
 
-  const [form] = Form.useForm();
+  useEffect(() => {
+    if (!isRegisterSuccess) {
+      return;
+    }
+
+    form.resetFields();
+    setDisabledForm(true);
+  }, [isRegisterSuccess]);
+
   return (
     <Form
       form={form}
       name={SIGN_UP_FORM}
       autoComplete="off"
-      style={{ width: 540, maxWidth: '100%' }}
+      style={{ width: '100%' }}
       onFinish={handleOnFinish}
       disabled={loading}
       onFieldsChange={handleFieldsChange}
     >
       <FormItem
-        name={FormLabelType.FirstName}
+        name={SignUpFormLabel.FirstName}
         rules={[
           { required: true, message: 'Please input your first name!' },
           {
@@ -80,7 +76,7 @@ const SignUpForm = ({ loading, onSubmit }: SignUpFormProps) => {
       </FormItem>
 
       <FormItem
-        name={FormLabelType.LastName}
+        name={SignUpFormLabel.LastName}
         rules={[
           { required: true, message: 'Please input your last name!' },
           {
@@ -93,7 +89,7 @@ const SignUpForm = ({ loading, onSubmit }: SignUpFormProps) => {
       </FormItem>
 
       <FormItem
-        name={FormLabelType.Email}
+        name={SignUpFormLabel.Email}
         rules={[
           { required: true, message: 'Please input your email!' },
           {
@@ -107,8 +103,8 @@ const SignUpForm = ({ loading, onSubmit }: SignUpFormProps) => {
 
       <FormItem
         required
-        name={FormLabelType.Password}
-        dependencies={[FormLabelType.Password]}
+        name={SignUpFormLabel.Password}
+        dependencies={[SignUpFormLabel.Password]}
         rules={[
           {
             validator: async (_, value) => {
@@ -136,12 +132,12 @@ const SignUpForm = ({ loading, onSubmit }: SignUpFormProps) => {
       </FormItem>
 
       <FormItem
-        name={FormLabelType.ConfirmPassword}
-        dependencies={[FormLabelType.Password]}
+        name={SignUpFormLabel.ConfirmPassword}
+        dependencies={[SignUpFormLabel.Password]}
         rules={[
           {
             validator: async (_, value) => {
-              const password = form.getFieldValue(FormLabelType.Password)?.trim();
+              const password = form.getFieldValue(SignUpFormLabel.Password)?.trim();
               if (value !== password) {
                 return Promise.reject(new Error('Password does not match!'));
               }
@@ -159,7 +155,7 @@ const SignUpForm = ({ loading, onSubmit }: SignUpFormProps) => {
       </FormItem>
 
       <FormItem
-        name={FormLabelType.PhoneNumber}
+        name={SignUpFormLabel.PhoneNumber}
         rules={[
           { required: true, message: 'Please input your phone number!' },
           { min: 10, message: 'The phone number must be a string with a min length of 10' },
@@ -169,8 +165,17 @@ const SignUpForm = ({ loading, onSubmit }: SignUpFormProps) => {
         <Input size="large" type="primary" placeholder="Phone number" prefix={<Phone size={16} color={colorIcon} />} />
       </FormItem>
 
+      {errorMessage && <Alert message={errorMessage} type="error" style={{ marginBottom: 24 }} />}
+
       <FormItem style={{ margin: 0 }}>
-        <Button type="primary" size="large" style={{ width: '100%' }} htmlType="submit" disabled={disabledForm}>
+        <Button
+          type="primary"
+          size="large"
+          style={{ width: '100%' }}
+          htmlType="submit"
+          disabled={disabledForm}
+          loading={loading}
+        >
           Sign up
         </Button>
       </FormItem>

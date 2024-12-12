@@ -5,12 +5,7 @@ import { Flex } from 'antd';
 import Link from 'next/link';
 export const HEIGHT_HEADER = 140;
 
-const MainFooterContainer = styled.div({
-  padding: 8,
-  [media('md')]: {
-    padding: 24,
-  },
-});
+const MainFooterContainer = styled.div({});
 
 const LinkFooter = styled(Link)((props) => ({
   color: (props.theme as IThemeAntd)?.antdToken?.colorTextSecondary,
@@ -26,7 +21,9 @@ const CopyrightContainer = styled(Flex)({
   flexDirection: 'column',
   [media('md')]: {
     flexDirection: 'row',
+    padding: '0 24px 24px 24px',
   },
+  padding: 8,
 });
 
 export { MainFooterContainer, LinkFooter, CopyrightContainer };

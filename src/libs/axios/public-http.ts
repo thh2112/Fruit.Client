@@ -28,7 +28,6 @@ publicHttp.interceptors.response.use(
   },
   async (error) => {
     const response = handleResponseError(error);
-    console.log('check lỗi', response);
     return Promise.reject(response);
   },
 );

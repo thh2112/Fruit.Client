@@ -29,6 +29,10 @@ export const LogInForm = ({ onSubmit, initialValue, loading, errorMessage }: Log
   const rememberMe = Form.useWatch(SignInFormLabel.RememberMe, form);
 
   const getUserData: SignInFormValue = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
     const encodeLocalKey = encrypted(localStorageKey.userInfo);
     const userData = localStorage.getItem(encodeLocalKey);
     if (userData) {

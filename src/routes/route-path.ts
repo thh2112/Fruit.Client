@@ -5,6 +5,8 @@ const AUTH_ROUTE = {
   FORGOT_PASSWORD: 'forgot-password',
   RESET_PASSWORD: 'reset-password',
   VERIFY_EMAIL: 'verify-email',
+  PROFILE: 'profile',
+  CHANGE_PASSWORD: 'change-password',
 };
 
 const CLIENT_ROUTE = {

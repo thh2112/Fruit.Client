@@ -6,6 +6,8 @@ const authSetting = {
   forgotPassword: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.FORGOT_PASSWORD}`,
   resetPassword: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.RESET_PASSWORD}`,
   verifyEmail: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.VERIFY_EMAIL}`,
+  myProfile: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.PROFILE}`,
+  changePassword: () => `${AUTH_ROUTE.BASE}${AUTH_ROUTE.PROFILE}/${AUTH_ROUTE.CHANGE_PASSWORD}`,
 };
 
 const clientSetting = {

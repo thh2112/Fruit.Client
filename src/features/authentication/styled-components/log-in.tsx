@@ -1,3 +1,4 @@
+import { media } from '@/shared/styles';
 import styled from '@emotion/styled';
 import { Form } from 'antd';
 
@@ -9,3 +10,10 @@ export const FormContainer = styled(Form)((props) => ({
 export const FormItem = styled(Form.Item)((props) => ({
   marginTop: 12,
 }));
+
+export const MyProfileContainer = styled.div({
+  maxWidth: '100%',
+  [media('xl')]: {
+    maxWidth: '800px',
+  },
+});

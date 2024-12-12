@@ -1,6 +1,7 @@
 import { apiVersion } from '@/constanst/consts';
 import { NEXT_AUTH_SECRET } from '@/constanst/consts/env-config';
 import { authService } from '@/features/authentication/services';
+import { endpoints } from '@/features/authentication/services/endpoint';
 import { ICredentialPayload } from '@/features/authentication/types/auth';
 import { authSetting } from '@/routes/navigate';
 import { decrypted } from '@/shared/utils';
@@ -26,16 +27,17 @@ const authorize = async (credentials: CredentialType) => {
     };
 
     console.log('----------TIME TO AUTHENTICATE------------');
-    const urlPath = `api/v${apiVersion}/auth/login`;
-    const { data } = await authService.login(urlPath, payload);
-    const id = _get(data, 'user.id', '');
-    const email = _get(data, 'user.email', '');
-    const name = _get(data, 'user.fullName', '');
-    const refreshToken = _get(data, 'refreshToken');
-    const accessToken = _get(data, 'accessToken', '');
+    const { data } = await authService.login(endpoints.login(apiVersion), payload);
 
-    console.log('--------------------------------', data);
-    return data ? { id, email, name, accessToken, refreshToken } : null;
+    const id = _get(data, 'payload.id', '');
+    const name = _get(data, 'payload.fullName', '');
+    const email = _get(data, 'payload.email', '');
+    const role = _get(data, 'payload.role');
+    const avatar = _get(data, 'payload.avatar', '');
+    const accessToken = _get(data, 'accessToken', '');
+    const refreshToken = _get(data, 'refreshToken', '');
+
+    return data ? { id, name, email, role, avatar, accessToken, refreshToken } : null;
   } catch (error) {
     throw new Error((error as any).errorMessage);
   }
@@ -88,10 +90,6 @@ const authOptions: AuthOptions = {
         },
       };
     },
-    // async redirect({ url, baseUrl }) {
-    //   console.log('redirecting', url, baseUrl);
-    //   return '';
-    // },
   },
   cookies: {
     callbackUrl: {

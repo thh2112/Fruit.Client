@@ -13,12 +13,10 @@ const MainHeader = () => {
   const router = useRouter();
 
   const onLogin = () => {
-    console.log('onLogin', authSetting.login());
     router.push(authSetting.login());
   };
 
   const onRegister = () => {
-    console.log('onRegister', authSetting.register());
     router.push(authSetting.register());
   };
 
@@ -31,7 +29,7 @@ const MainHeader = () => {
         </div>
         <Flex justify="end" align="center" gap="middle">
           <MultiLanguage />
-          <Divider type="vertical" style={{ height: 32, margin: 0 }} />
+          <Divider type="vertical" style={{ margin: 0 }} />
           <MainHeaderAuthSection onLogin={onLogin} onRegister={onRegister} />
         </Flex>
       </FlexContainer>

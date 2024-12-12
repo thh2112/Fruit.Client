@@ -15,7 +15,7 @@ const MainHeaderContainer = styled.div({
 
 const FlexContainer = styled(Flex)({
   height: '100%',
-  padding: `12px 48px`,
+  padding: `12px 24px`,
 });
 
 const ButtonAuthStyle = styled(Button)({

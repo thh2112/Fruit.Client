@@ -60,8 +60,6 @@ const SignInPage = () => {
       if (response?.error) {
         setErrorMessage(response.error);
         return;
-      } else {
-        setErrorMessage(null);
       }
 
       if (formValue.rememberMe) {

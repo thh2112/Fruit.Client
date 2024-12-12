@@ -1,8 +1,8 @@
-import { Alert, Button, Form, Input, theme } from 'antd';
+import { Alert, Button, Form, Input, Select, theme } from 'antd';
 import { FormItem } from '../styled-components';
 import { Mail, Lock, User, Phone } from 'lucide-react';
-import { passwordRegex } from '@/constanst/consts';
-import { useEffect, useState } from 'react';
+import { GenderType, passwordRegex } from '@/constanst/consts';
+import { useEffect, useMemo, useState } from 'react';
 import _some from 'lodash/some';
 import { SignUpFormLabel, SignUpFormValue } from '../types/auth';
 
@@ -31,6 +31,24 @@ const SignUpForm = ({ loading, onSubmit, errorMessage, isRegisterSuccess }: Sign
 
   const [form] = Form.useForm();
   const [disabledForm, setDisabledForm] = useState<boolean>(true);
+
+  const genderOptions = useMemo(
+    () => [
+      {
+        label: 'Male',
+        value: GenderType.Male,
+      },
+      {
+        label: 'Female',
+        value: GenderType.Female,
+      },
+      {
+        label: 'Other',
+        value: GenderType.Other,
+      },
+    ],
+    [],
+  );
 
   const handleOnFinish = (formValue: SignUpFormValue) => {
     onSubmit(formValue);
@@ -163,6 +181,10 @@ const SignUpForm = ({ loading, onSubmit, errorMessage, isRegisterSuccess }: Sign
         ]}
       >
         <Input size="large" type="primary" placeholder="Phone number" prefix={<Phone size={16} color={colorIcon} />} />
+      </FormItem>
+
+      <FormItem name={SignUpFormLabel.Gender} rules={[{ required: true, message: 'Please input your gender!' }]}>
+        <Select size="large" options={genderOptions} defaultActiveFirstOption defaultValue={GenderType.Male} />
       </FormItem>
 
       {errorMessage && <Alert message={errorMessage} type="error" style={{ marginBottom: 24 }} />}

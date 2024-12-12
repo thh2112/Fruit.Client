@@ -4,3 +4,5 @@ export const SUB_BANNER_IMAGE = {
   SUB_BANNER_2: '/assets/images/home-page/sub-banner-2.webp',
   SUB_BANNER_3: '/assets/images/home-page/sub-banner-3.webp',
 };
+
+export const DEFAULT_USER_IMAGE = '/assets/images/default-user.jpeg';

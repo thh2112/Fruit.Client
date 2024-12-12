@@ -6,4 +6,12 @@ export const apiVersion = 1;
 
 export const localStorageKey = {
   userInfo: 'userInfo',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken',
 };
+
+export enum GenderType {
+  Male,
+  Female,
+  Other,
+}

@@ -3,3 +3,4 @@ export const NEXT_AUTH_SECRET = process.env.NEXTAUTH_SECRET;
 export const NEXT_AUTH_URL = process.env.NEXTAUTH_URL;
 export const SECRET_KEY = process.env.NEXT_PUBLIC_SECRET_KEY;
 export const CRYPTO_KEY_SIZE = process.env.NEXT_PUBLIC_CRYPTO_KEY_SIZE;
+export const SESSION_MAX_AGE = process.env.NEXT_PUBLIC_SESSION_MAX_AGE;

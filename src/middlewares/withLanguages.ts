@@ -22,12 +22,6 @@ export function withMultiLanguage(middleware: CustomMiddleware) {
       lng = acceptLanguage.get(request.headers.get('Accept-Language')) || DEFAULT_LANGUAGE;
     }
 
-    // if (pathName.startsWith('/verify')) {
-    //   const url = new URL(request.url);
-    //   const searchParamUrl = decodeURIComponent(url.search);
-    //   return NextResponse.redirect(`${url.origin}/${lng}${url.pathname}${searchParamUrl}`);
-    // }
-
     // Redirect if lng in path is not supported
     if (!languages.some((loc) => pathName.startsWith(`/${loc}`)) && !pathName.startsWith('/_next')) {
       const path = request.nextUrl.search

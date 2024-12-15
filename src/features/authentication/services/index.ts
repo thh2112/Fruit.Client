@@ -27,4 +27,16 @@ export const authService = {
     });
     return data;
   },
+  refreshToken: async (url: string, payload: { token: string }) => {
+    const { data } = await clientHttp.post(
+      url,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${payload.token}`,
+        },
+      },
+    );
+    return data;
+  },
 };

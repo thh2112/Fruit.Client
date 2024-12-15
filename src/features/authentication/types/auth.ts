@@ -66,7 +66,7 @@ export interface AccountInformation {
   phoneNumber: string;
   gender: GenderType | 'N/A';
   role: Role | null;
-  avatar: string;
+  image: string;
   isDeleted: boolean;
   createdAt: string;
   updatedAt: string;

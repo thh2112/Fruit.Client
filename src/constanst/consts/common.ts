@@ -15,3 +15,7 @@ export enum GenderType {
   Female,
   Other,
 }
+
+export const cookieKey = {
+  accessToken: 'access_token',
+};

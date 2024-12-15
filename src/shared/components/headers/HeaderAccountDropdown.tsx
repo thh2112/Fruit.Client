@@ -67,7 +67,7 @@ const HeaderAccountDropdown = ({ userInfo }: IHeaderAccountDropdownProps) => {
       <Link href={authSetting.myProfile()}>
         <Space>
           <Typography.Text style={{ fontWeight: 500 }}>{userInfo?.name}</Typography.Text>
-          <Avatar src={userInfo.avatar || DEFAULT_USER_IMAGE} size={40} />
+          <Avatar src={userInfo.image || DEFAULT_USER_IMAGE} size={40} />
         </Space>
       </Link>
     </Dropdown>

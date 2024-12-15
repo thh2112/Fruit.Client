@@ -15,7 +15,7 @@ export function transformAccountInformation(data: unknown): AccountInformation |
     phoneNumber: _get(data, 'phoneNumber', ''),
     gender: _get(data, 'gender', 'N/A'),
     role: _get(data, 'role', null),
-    avatar: _get(data, 'avatar', ''),
+    image: _get(data, 'avatar', ''),
     isDeleted: _get(data, 'isDeleted', false),
     createdAt: _get(data, 'createdAt', ''),
     updatedAt: _get(data, 'updatedAt', ''),

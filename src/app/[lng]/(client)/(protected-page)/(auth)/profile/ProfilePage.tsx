@@ -18,6 +18,7 @@ const ProfilePage = () => {
   const [disabledSubmitBtn, setDisabledSubmitBtn] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
   const { myProfile, errorMessage, isLoading } = useProfileSession();
+
   const { uploadAvatar, updateProfile, loading, errorMessageUpload } = useProfileUpdate({
     cbUploadAvatarSuccess: () => {
       messageApi.success('Change avatar successfully');
@@ -68,7 +69,7 @@ const ProfilePage = () => {
         <MyProfileContainer>
           <Flex vertical gap={24}>
             <ProfileCard
-              avatar={myProfile.avatar}
+              avatar={myProfile.image}
               name={myProfile.name}
               onSubmit={handleChangeAvatar}
               loading={loading}

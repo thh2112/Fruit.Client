@@ -1,24 +1,23 @@
 import { AccountInformation } from '@/features/authentication/types/auth';
 import { ButtonAuthStyle } from '@/shared/styled-components/headers/main-header';
 import { Flex } from 'antd';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import HeaderAccountDropdown from './HeaderAccountDropdown';
+import { SessionWrapperContext } from '@/app/[lng]/providers';
 
 interface MainHeaderAuthSectionProps {
   onLogin: () => void;
   onRegister: () => void;
 }
 const MainHeaderAuthSection = ({ onLogin, onRegister }: MainHeaderAuthSectionProps) => {
-  const { data: session } = useSession();
+  const {
+    state: { session },
+  } = useContext(SessionWrapperContext);
+
   const [userInfo, setUserInfo] = useState<AccountInformation | null>();
 
   useEffect(() => {
-    if (!session?.user) {
-      return;
-    }
-
-    setUserInfo(session.user as AccountInformation);
+    setUserInfo(session?.user as AccountInformation);
   }, [session]);
 
   return (

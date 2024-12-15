@@ -1,16 +1,19 @@
 import { apiVersion } from '@/constanst/consts';
 import _get from 'lodash/get';
-import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { authService } from '../services';
 import { endpoints } from '../services/endpoint';
 import { AccountInformationFormValues } from '../types/auth';
+import { SessionWrapperContext } from '@/app/[lng]/providers';
 
 interface ProfileUpdateProps {
   cbUploadAvatarSuccess?: () => void;
 }
 const useProfileUpdate = ({ cbUploadAvatarSuccess }: ProfileUpdateProps) => {
-  const { data: session, update } = useSession();
+  const {
+    state: { session },
+    updateSession,
+  } = useContext(SessionWrapperContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [errorMessageUpload, setErrorMessage] = useState<string>('');
 
@@ -20,13 +23,15 @@ const useProfileUpdate = ({ cbUploadAvatarSuccess }: ProfileUpdateProps) => {
       const id = Number(_get(session?.user, 'id'));
       const response = await authService.changeAvatar(endpoints.changeAvatar(apiVersion, id), formData);
       if (response.success && session) {
-        await update({
-          ...session,
-          user: {
-            ...session.user,
-            avatar: response.data.avatar,
-          },
-        });
+        if (updateSession) {
+          await updateSession({
+            ...session,
+            user: {
+              ...session.user,
+              image: response.data.avatar,
+            },
+          });
+        }
         cbUploadAvatarSuccess?.();
       }
     } catch (error) {
@@ -41,13 +46,15 @@ const useProfileUpdate = ({ cbUploadAvatarSuccess }: ProfileUpdateProps) => {
       const id = Number(_get(session?.user, 'id'));
       const response = await authService.updateMyProfile(endpoints.updateProfile(apiVersion, id), payload);
       if (response.success && session) {
-        await update({
-          ...session,
-          user: {
-            ...session.user,
-            ...response.data,
-          },
-        });
+        if (updateSession) {
+          await updateSession({
+            ...session,
+            user: {
+              ...session.user,
+              ...response.data,
+            },
+          });
+        }
         cbUploadAvatarSuccess?.();
       }
     } catch (error) {
